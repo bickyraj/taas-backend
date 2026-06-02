@@ -1,8 +1,10 @@
 import {RoomModel} from "../entity/RoomModel";
 import {PlayerModel} from "../entity/PlayerModel";
+import {PlayerService} from "./player.service";
 
 export class RoomManager {
     private static instance: RoomManager;
+    private playerService = PlayerService.getInstance();
 
     private roomsPlayer: Map<string, string[]> = new Map();
     private rooms: Map<string, RoomModel> = new Map();
@@ -29,8 +31,12 @@ export class RoomManager {
         return this.rooms.get(roomId);
     }
 
-    public getRoomPlayer(roomId: string): string [] {
-        return this.roomsPlayer.get(roomId) || [];
+    public getRoomPlayer(roomId: string): PlayerModel [] {
+        const playerIds: string[] =  this.roomsPlayer.get(roomId) || [];
+        if (playerIds.length === 0) {
+            return [];
+        }
+        return this.playerService.getPlayersByIds(playerIds);
     }
 
     public getAllRooms(): RoomModel[] {
