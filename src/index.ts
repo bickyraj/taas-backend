@@ -7,6 +7,8 @@ import {randomUUID} from "node:crypto";
 import {db} from "./db/db";
 import roomRoutes from "./routes/room.routes";
 import {PlayerManager} from "./services/player-manager";
+import {PlayerService} from "./services/player.service";
+import {PlayerModel} from "./entity/PlayerModel";
 
 const app = express();
 app.use(cors());
@@ -23,10 +25,15 @@ const io = new Server(server, {
 });
 const roomManager = RoomManager.getInstance();
 const playerManager = PlayerManager.getInstance();
+const playerService = PlayerService.getInstance();
 
 io.on("connection", (socket) => {
     const playerId = socket.handshake.auth.playerId;
+    const name = socket.handshake.auth.name;
     playerManager.addPlayer(playerId, socket.id);
+    // insert to database
+    const playerModel = new PlayerModel(playerId, name);
+    playerService.insertPlayer(playerModel);
     console.log("User connected:", socket.id);
 
     socket.on("joinRoom", (roomId, playerId ) => {
