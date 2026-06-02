@@ -29,6 +29,10 @@ export class RoomManager {
         return this.rooms.get(roomId);
     }
 
+    public getRoomPlayer(roomId: string): string [] {
+        return this.roomsPlayer.get(roomId) || [];
+    }
+
     public getAllRooms(): RoomModel[] {
         return Array.from(this.rooms.values());
     }

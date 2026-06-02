@@ -34,7 +34,6 @@ io.on("connection", (socket) => {
         socket.join(roomId);
         roomManager.addPlayerToRoom(roomId, playerId);
         io.to(roomId).emit("roomUpdated");
-        console.log(`${socket.id} joined room ${roomId}`);
     });
 
     socket.on('createRoom', (callback) => {
