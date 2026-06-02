@@ -18,4 +18,8 @@ export class PlayerService {
     public insertPlayer(player: PlayerModel): void {
         this.playerRepo.createPlayer(player);
     }
+
+    public getPlayersByIds(playerIds: string[]): PlayerModel[] {
+        return this.playerRepo.getPlayersByIds(playerIds);
+    }
 }

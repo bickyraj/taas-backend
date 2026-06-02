@@ -35,4 +35,18 @@ export class PlayerRepo {
 
         return row ? new PlayerModel(row.id, row.name) : null;
     }
+
+    getPlayersByIds(ids: string[]): PlayerModel[] {
+        if (ids.length === 0) {
+            return [];
+        }
+        const placeholders = ids.map(() => '?').join(', ');
+        const rows = db.prepare(`
+            SELECT id, name
+            FROM players
+            WHERE id IN (${placeholders})
+          `).all(...ids) as any[];
+
+        return rows.map(row => new PlayerModel(row.id, row.name));
+    }
 }
