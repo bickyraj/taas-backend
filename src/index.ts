@@ -4,8 +4,7 @@ import cors from "cors";
 import { Server } from "socket.io";
 import {RoomManager} from "./services/room-manager";
 import {randomUUID} from "node:crypto";
-import {RoomModel} from "./entity/RoomModel";
-import {PlayerModel} from "./entity/PlayerModel";
+import {db} from "./db/db";
 import roomRoutes from "./routes/room.routes";
 import {PlayerManager} from "./services/player-manager";
 
