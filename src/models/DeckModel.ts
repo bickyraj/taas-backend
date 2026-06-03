@@ -11,6 +11,13 @@ export class DeckModel {
         this.initDeck();
     }
 
+    shuffle(): void {
+        for (let i = this.deck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.deck[i], this.deck[j]] = [this.deck[j]!, this.deck[i]!];
+        }
+    }
+
     private initDeck(): void {
         for (const suit of Object.values(SuitEnum)) {
             for (const rank of this.cards) {

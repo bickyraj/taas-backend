@@ -24,6 +24,7 @@ export class RoomModel {
 
     public dealCard(): void {
         console.log('this is it', this.id);
+        this.deck.shuffle();
         for (let round = 0; round < 3; round++) {
             for (const player of this.players) {
                 const card = this.deck.drawCard();
