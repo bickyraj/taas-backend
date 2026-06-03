@@ -42,6 +42,11 @@ io.on("connection", (socket) => {
         io.to(roomId).emit("roomUpdated");
     });
 
+    socket.on("startGame", (roomId) => {
+        const room = roomManager.getRoom(roomId);
+        console.log("Starting game in room:", roomId);
+    });
+
     socket.on('createRoom', (callback) => {
         const roomId = randomUUID();
         roomManager.getOrCreateRoom(roomId);
