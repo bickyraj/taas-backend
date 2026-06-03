@@ -1,4 +1,4 @@
-import {CardModel} from "../models/CardModel";
+import {CardModel} from "./CardModel";
 
 export class PlayerModel {
     private id: string;

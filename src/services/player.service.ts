@@ -1,4 +1,4 @@
-import {PlayerModel} from "../entity/PlayerModel";
+import {PlayerModel} from "../models/PlayerModel";
 import {PlayerRepo} from "../db/player.repo";
 
 export class PlayerService {

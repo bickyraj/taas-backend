@@ -1,5 +1,5 @@
-import {RoomModel} from "../entity/RoomModel";
-import {PlayerModel} from "../entity/PlayerModel";
+import {RoomModel} from "../models/RoomModel";
+import {PlayerModel} from "../models/PlayerModel";
 import {PlayerService} from "./player.service";
 
 export class RoomManager {
