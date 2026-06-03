@@ -48,7 +48,13 @@ export class RoomManager {
             this.roomsPlayer.set(roomId, []);
         }
         const players = this.roomsPlayer.get(roomId);
+        const room = this.rooms.get(roomId);
+        if (!room) {
+            console.error("Room not found:", roomId);
+            return;
+        }
         if (players && !players.includes(playerId)) {
+            room.addPlayer(new PlayerModel(playerId, ""));
             players.push(playerId);
             this.roomsPlayer.set(roomId, players);
         }
