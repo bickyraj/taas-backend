@@ -2,13 +2,9 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
-import {RoomManager} from "./services/room-manager";
-import {randomUUID} from "node:crypto";
 import {db} from "./db/db";
 import roomRoutes from "./routes/room.routes";
-import {PlayerManager} from "./services/player-manager";
-import {PlayerService} from "./services/player.service";
-import {PlayerModel} from "./entity/PlayerModel";
+import {SocketService} from "./services/socket.service";
 
 const app = express();
 app.use(cors());
@@ -23,46 +19,9 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 });
-const roomManager = RoomManager.getInstance();
-const playerManager = PlayerManager.getInstance();
-const playerService = PlayerService.getInstance();
-
-io.on("connection", (socket) => {
-    const playerId = socket.handshake.auth.playerId;
-    const name = socket.handshake.auth.name;
-    playerManager.addPlayer(playerId, socket.id);
-    // insert to database
-    const playerModel = new PlayerModel(playerId, name);
-    playerService.insertPlayer(playerModel);
-    console.log("User connected:", socket.id);
-
-    socket.on("joinRoom", (roomId, playerId ) => {
-        socket.join(roomId);
-        roomManager.addPlayerToRoom(roomId, playerId);
-        io.to(roomId).emit("roomUpdated");
-    });
-
-    socket.on("startGame", (roomId) => {
-        const room = roomManager.getRoom(roomId);
-        console.log("Starting game in room:", roomId);
-    });
-
-    socket.on('createRoom', (callback) => {
-        const roomId = randomUUID();
-        roomManager.getOrCreateRoom(roomId);
-        socket.join(roomId);
-        callback(roomId);
-    });
-
-    socket.on('getRoomDetail', (roomId, callback) => {
-        callback(roomManager.getRoom(roomId));
-    });
-
-    socket.on("disconnect", () => {
-        playerManager.removeSocket(socket.id);
-        console.log("User disconnected:", socket.id);
-    });
-});
+const socketService = SocketService.getInstance();
+socketService.init(io);
+socketService.registerEvents();
 
 server.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
