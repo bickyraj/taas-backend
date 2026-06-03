@@ -1,12 +1,8 @@
 import { CardModel } from './CardModel';
-import { Injectable } from '@angular/core';
 import {SuitEnum} from "./SuitEnum";
 
 export type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
-@Injectable({
-    providedIn: 'root'
-})
 export class DeckModel {
     private readonly deck: CardModel[] = [];
     private readonly cards: Rank[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
