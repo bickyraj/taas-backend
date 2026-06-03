@@ -33,4 +33,19 @@ export class RoomModel {
             }
         }
     }
+
+    public async startGameCountdown() {
+        let timeLeft = 10;
+
+        const interval = setInterval(() => {
+            this.socketService.emitTimerUpdate(this.id, timeLeft);
+
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(interval);
+                this.socketService.emitCountDownFinished(this.id);
+            }
+        }, 1000);
+    }
 }

@@ -35,6 +35,14 @@ export class SocketService {
         }
     }
 
+    public emitTimerUpdate(roomId: string, timeLeft: number) {
+        this.io.to(roomId).emit('timerUpdate', timeLeft);
+    }
+
+    public emitCountDownFinished(roomId: string) {
+        this.io.to(roomId).emit('countdownFinished');
+    }
+
     public registerEvents() {
         this.io.on("connection", (socket: Socket) => {
             const playerId = socket.handshake.auth.playerId;
@@ -48,6 +56,11 @@ export class SocketService {
             socket.on("joinRoom", (roomId, playerId ) => {
                 socket.join(roomId);
                 this.roomManager.addPlayerToRoom(roomId, playerId);
+                const room = this.roomManager.getRoom(roomId);
+                if (room && room.getPlayers().length > 1) {
+                    this.io.to(roomId).emit('readyToStart');
+                    room.startGameCountdown();
+                }
                 this.io.to(roomId).emit("roomUpdated");
             });
 
