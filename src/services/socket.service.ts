@@ -73,6 +73,14 @@ export class SocketService {
                 }
             });
 
+            socket.on("broadcastShowCard", (roomId, playerId) => {
+                const room = this.roomManager.getRoom(roomId);
+                if (room == null) return;
+                const player = room.getPlayers().find(p => p.getId() == playerId);
+                if (player == null) return;
+                this.io.to(roomId).emit('onPlayerShowCardCall', player);
+            });
+
             socket.on('createRoom', (callback) => {
                 const roomId = randomUUID();
                 this.roomManager.getOrCreateRoom(roomId);

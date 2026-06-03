@@ -44,7 +44,7 @@ export class RoomModel {
     }
 
     public async startGameCountdown() {
-        let timeLeft = 10;
+        let timeLeft = 3;
 
         const interval = setInterval(() => {
             this.socketService.emitTimerUpdate(this.id, timeLeft);
