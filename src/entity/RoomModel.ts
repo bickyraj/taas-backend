@@ -7,11 +7,20 @@ export class RoomModel {
     private players: PlayerModel[];
     private deck: DeckModel;
     private socketService = SocketService.getInstance();
+    private gameStart: boolean = false;
 
     constructor(id: string) {
         this.id = id;
         this.players = [];
         this.deck = new DeckModel();
+    }
+
+    public getGameStart(): boolean {
+        return this.gameStart;
+    }
+
+    public setGameStart(status: boolean): void {
+        this.gameStart = status;
     }
 
     public getPlayers(): PlayerModel[] {

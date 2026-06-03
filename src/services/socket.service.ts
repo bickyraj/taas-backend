@@ -41,6 +41,13 @@ export class SocketService {
 
     public emitCountDownFinished(roomId: string) {
         this.io.to(roomId).emit('countdownFinished');
+        const room = this.roomManager.getRoom(roomId)
+        if (!room) {
+            console.error("Room not found:", roomId);
+            return;
+        }
+        room.dealCard();
+        console.log("Starting game in room:", roomId);
     }
 
     public registerEvents() {
@@ -57,21 +64,13 @@ export class SocketService {
                 socket.join(roomId);
                 this.roomManager.addPlayerToRoom(roomId, playerId);
                 const room = this.roomManager.getRoom(roomId);
+                this.io.to(roomId).emit("roomUpdated");
                 if (room && room.getPlayers().length > 1) {
+                    if (room.getGameStart()) return;
+                    room.setGameStart(true);
                     this.io.to(roomId).emit('readyToStart');
                     room.startGameCountdown();
                 }
-                this.io.to(roomId).emit("roomUpdated");
-            });
-
-            socket.on("startGame", (roomId) => {
-                const room = this.roomManager.getRoom(roomId)
-                if (!room) {
-                    console.error("Room not found:", roomId);
-                    return;
-                }
-                room.dealCard();
-                console.log("Starting game in room:", roomId);
             });
 
             socket.on('createRoom', (callback) => {
