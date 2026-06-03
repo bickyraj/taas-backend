@@ -1,5 +1,5 @@
 import {db} from "./db";
-import {PlayerModel} from "../entity/PlayerModel";
+import {PlayerModel} from "../models/PlayerModel";
 
 export class PlayerRepo {
     private static instance: PlayerRepo;

@@ -1,5 +1,5 @@
 import {PlayerModel} from "./PlayerModel";
-import {DeckModel} from "../models/DeckModel";
+import {DeckModel} from "./DeckModel";
 import {SocketService} from "../services/socket.service";
 
 export class RoomModel {

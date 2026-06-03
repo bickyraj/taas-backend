@@ -1,5 +1,5 @@
 import {Server, Socket} from "socket.io";
-import {PlayerModel} from "../entity/PlayerModel";
+import {PlayerModel} from "../models/PlayerModel";
 import {randomUUID} from "node:crypto";
 import {RoomManager} from "./room-manager";
 import {PlayerManager} from "./player-manager";
