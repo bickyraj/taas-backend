@@ -88,6 +88,11 @@ export class SocketService {
                 callback(roomId);
             });
 
+            socket.on('restartGame', (roomId) => {
+                const room = this.roomManager.getRoom(roomId);
+                room?.restartGame();
+            })
+
             socket.on('getRoomDetail', (roomId, callback) => {
                 callback(this.roomManager.getRoom(roomId));
             });

@@ -31,6 +31,14 @@ export class RoomModel {
         this.players.push(player);
     }
 
+    public restartGame(): void {
+        this.deck = new DeckModel();
+        for (let player of this.getPlayers()) {
+            player.hand = [];
+        }
+        this.startGameCountdown();
+    }
+
     public dealCard(): void {
         this.deck.shuffle();
         for (let round = 0; round < 3; round++) {
